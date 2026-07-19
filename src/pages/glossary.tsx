@@ -23,11 +23,30 @@ type Entry = {
   isKeyword: boolean;
   isAbility: boolean;
   category: string;
+  season?: string; // 'core' (game-wide) or a season id for season-introduced terms
 };
 
 const entries = glossaryData as Entry[];
 const slugToName = new Map(entries.map((e) => [e.slug, e.name]));
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+// Season-introduced terms carry a badge + filter chip. Core terms are game-wide.
+const SEASON_ORDER = ['street-fighter', 'shovel-knight', 'blazblue', 'under-night', 'guilty-gear'];
+const SEASON_LABEL: Record<string, string> = {
+  'street-fighter': 'Street Fighter',
+  'shovel-knight': 'Shovel Knight',
+  blazblue: 'BlazBlue',
+  'under-night': 'Under Night',
+  'guilty-gear': 'Guilty Gear',
+};
+const SEASON_SHORT: Record<string, string> = {
+  'street-fighter': 'S3',
+  'shovel-knight': 'S4',
+  blazblue: 'S5',
+  'under-night': 'S6',
+  'guilty-gear': 'S7',
+};
+const isSeasonTerm = (e: Entry): boolean => !!e.season && e.season !== 'core';
 
 // Normalize a term name so inline "(see: ...)" references resolve to a glossary
 // entry even when they differ in case, plurality, punctuation, or spacing. Both
@@ -94,10 +113,18 @@ function seeAlsoSlugsFor(entry: Entry): string[] {
   return out;
 }
 
+// Season chips are added only for seasons that actually have entries.
+const SEASON_FILTERS = SEASON_ORDER.filter((s) => entries.some((e) => e.season === s)).map((s) => ({
+  id: `season-${s}`,
+  label: SEASON_LABEL[s],
+  test: (e: Entry) => e.season === s,
+}));
+
 const FILTERS: {id: string; label: string; test: (e: Entry) => boolean}[] = [
   {id: 'all', label: 'All', test: () => true},
   {id: 'keywords', label: 'Keywords', test: (e) => e.isKeyword},
   {id: 'abilities', label: 'Abilities', test: (e) => e.isAbility},
+  ...SEASON_FILTERS,
   {id: 'a-e', label: 'A–E', test: (e) => e.category >= 'A' && e.category <= 'E'},
   {id: 'f-m', label: 'F–M', test: (e) => e.category >= 'F' && e.category <= 'M'},
   {id: 'n-s', label: 'N–S', test: (e) => e.category >= 'N' && e.category <= 'S'},
@@ -196,6 +223,11 @@ function Card({
         <h2 className={styles.cardTitle}>{entry.name}</h2>
         <div className={styles.badges}>
           {entry.isKeyword && <span className={styles.keywordBadge}>Keyword</span>}
+          {isSeasonTerm(entry) && (
+            <span className={styles.seasonBadge} title={SEASON_LABEL[entry.season!]}>
+              {SEASON_SHORT[entry.season!]}
+            </span>
+          )}
           <span className={styles.letterBadge}>{entry.category}</span>
         </div>
       </header>
@@ -230,6 +262,11 @@ function ListRow({
         onClick={() => onToggle(entry.slug)}
         aria-expanded={open}>
         <span className={styles.rowName}>{entry.name}</span>
+        {isSeasonTerm(entry) && (
+          <span className={styles.seasonTag} title={SEASON_LABEL[entry.season!]}>
+            {SEASON_SHORT[entry.season!]}
+          </span>
+        )}
         {entry.isKeyword && <span className={styles.kwDot} title="Keyword" />}
         <span className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}>›</span>
       </button>

@@ -272,6 +272,27 @@
   background: var(--ifm-color-emphasis-200);
 }
 
+/* Season-introduced term marker (e.g. S5) — card header badge + list-row tag. */
+.seasonBadge {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  color: #fff;
+  background: var(--ifm-color-primary);
+}
+
+.seasonTag {
+  flex-shrink: 0;
+  font-size: 0.62rem;
+  font-weight: 800;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  color: var(--ifm-color-primary);
+  border: 1px solid var(--ifm-color-primary);
+}
+
 .para {
   margin: 0 0 0.6rem;
   line-height: 1.6;
