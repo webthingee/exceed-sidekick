@@ -13,8 +13,8 @@ import styles from './index.module.css';
 const TILES = [
   {to: '/glossary', label: 'Glossary'},
   {to: '/docs/how-to-play', label: 'How to Play'},
-  {to: '/docs/getting-started', label: 'Guides'},
-  {to: '/hacking-a-card', label: 'Hacking a Card'},
+  {to: '/docs/anatomy-of-a-strike', label: 'Anatomy of a Strike'},
+  {to: '/docs/solo-rules', label: 'Solo Rules'},
 ];
 
 const imageUrl = (c: {set: string; num: string}) =>

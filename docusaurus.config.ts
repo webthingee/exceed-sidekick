@@ -113,6 +113,7 @@ const config: Config = {
             {label: 'Turn Order', to: '/turn-order'},
             {label: 'Solo Rules', to: '/docs/solo-rules'},
             {label: 'How to Play', to: '/docs/how-to-play'},
+            {label: 'Anatomy of a Strike', to: '/docs/anatomy-of-a-strike'},
           ],
         },
       ],
