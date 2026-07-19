@@ -1,0 +1,624 @@
+/* Mobile-first turn-order stepper. Uses Infima theme variables so it tracks the
+   site palette in both light and dark modes; --accent is set per phase inline. */
+
+.wrap {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  /* keep the whole stepper reachable by thumb: fit within a phone viewport */
+  min-height: calc(100dvh - var(--ifm-navbar-height, 60px));
+}
+
+/* --- phase rail --- */
+.rail {
+  display: flex;
+  gap: 0.4rem;
+  align-items: stretch;
+}
+
+.railItem {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.railLabel {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: color 0.15s ease;
+}
+
+.rail_current .railLabel {
+  color: var(--accent);
+}
+.rail_done .railLabel {
+  color: var(--ifm-color-emphasis-700);
+}
+
+.railTrack {
+  display: block;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--ifm-color-emphasis-200);
+  overflow: hidden;
+}
+
+.railFill {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: var(--accent);
+  transition: width 0.25s ease;
+}
+
+/* --- step card --- */
+.stage {
+  flex: 1;
+  display: flex;
+  /* touch-action lets vertical scroll through while we handle horizontal swipe */
+  touch-action: pan-y;
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.4rem 1.3rem 1.2rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-top: 3px solid var(--accent);
+  border-radius: 16px;
+  background: var(--ifm-card-background-color, var(--ifm-background-surface-color));
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  animation: fade 0.22s ease;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.eyebrowRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.eyebrow {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.badgeOnce {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--ifm-color-emphasis-600);
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+}
+
+/* The action-phase loop steps (you ⇄ AI). Accent-colored to stand apart from the
+   muted once-per-round bookends. */
+.badgeRepeat {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+}
+
+/* Two-segment turn toggle (Your turn ⇄ AI's turn) — tap the other side to swap. */
+.turnToggle {
+  display: flex;
+  gap: 4px;
+  margin-top: 0.5rem;
+  padding: 4px;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 999px;
+}
+
+.turnToggleBtn {
+  flex: 1 1 0;
+  min-height: 2.5rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-700);
+  background: transparent;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color 0.12s ease, background 0.12s ease;
+}
+
+.turnToggleBtn:hover:not(.turnToggleActive) {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.turnToggleActive {
+  color: #fff;
+  background: var(--accent);
+}
+
+.turnToggleHint {
+  margin-top: 0.3rem;
+  text-align: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--accent);
+}
+
+.counter {
+  margin-top: 0.15rem;
+  font-size: 0.8rem;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.title {
+  margin: 0.35rem 0 0.6rem;
+  font-size: 1.7rem;
+  line-height: 1.15;
+}
+
+.detail {
+  margin: 0;
+  font-size: 1.02rem;
+  line-height: 1.55;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.bullets {
+  margin: 0.9rem 0 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: var(--ifm-color-emphasis-800);
+}
+
+/* the five actions, as tappable-looking rows */
+.actions {
+  list-style: none;
+  margin: 1rem 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.action {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-left: 3px solid var(--accent);
+  border-radius: 10px;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.actionName {
+  font-weight: 700;
+  font-size: 0.98rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* The read-check outcome the die actually landed on. */
+.actionActive {
+  border-color: var(--accent);
+  border-left-width: 3px;
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+  box-shadow: 0 0 0 1px var(--accent);
+}
+
+.actionActiveTag {
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: var(--accent);
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+/* Collapsible Read / Panic outcomes nested under the "Read Check" action. */
+.outcomes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.55rem;
+}
+
+.outcome {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  background: var(--ifm-background-surface-color);
+  overflow: hidden;
+}
+
+.outcomeHead {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.45rem 0.6rem;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.outcomeHead:hover {
+  background: color-mix(in srgb, var(--ifm-color-emphasis-500) 10%, transparent);
+}
+
+.outcomeChevron {
+  color: var(--ifm-color-emphasis-500);
+  font-size: 0.8rem;
+}
+
+.outcomeName {
+  flex: 1;
+}
+
+.outcomeDesc {
+  margin: 0;
+  padding: 0 0.6rem 0.55rem 1.65rem;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.actionDesc {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.4;
+}
+
+/* Fighter-override callout: flags a shared-engine step that individual AI
+   fighters commonly change, so the player checks their fighter's AI card. */
+.override {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid rgba(217, 133, 79, 0.4);
+  border-radius: 10px;
+  background: rgba(217, 133, 79, 0.1);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.overrideLabel {
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #b5651d;
+}
+
+/* Action chart: a 2D lookup grid (range rows × roll-vs-hand columns). Wrapped
+   in an overflow-x container so it never forces the page to scroll sideways. */
+.chartScroll {
+  overflow-x: auto;
+  margin: 0.2rem 0 0.3rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.chart {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 4px;
+  table-layout: fixed;
+  min-width: 320px;
+}
+
+.chartCorner {
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-align: left;
+  padding: 0.4rem 0.55rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.chartColHead {
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.4rem 0.4rem;
+  text-align: center;
+  white-space: nowrap;
+  color: var(--ifm-color-emphasis-700);
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+}
+
+.chartRowHead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-align: left;
+  padding: 0.5rem 0.55rem;
+  background: var(--ifm-color-emphasis-100);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+}
+
+.chartRowSub {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.chartCell {
+  text-align: center;
+  vertical-align: middle;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 8px;
+  background: var(--ifm-background-surface-color);
+}
+
+/* Cells without a link keep their padding; linked cells get it from the button. */
+.chartCell:not(:has(button)) {
+  padding: 0.55rem 0.4rem;
+}
+
+.chartCellBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  width: 100%;
+  height: 100%;
+  min-height: 2.4rem;
+  padding: 0.55rem 0.4rem;
+  font: inherit;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.chartCellBtn:hover {
+  background: color-mix(in srgb, var(--ifm-color-primary) 12%, transparent);
+}
+
+/* Roll result: shown in place of the step counter on the roll step. */
+.rollResult {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin: 0.15rem 0 0.25rem;
+}
+
+.rollLabel {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.rollValue {
+  font-size: 1.5rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--accent);
+  min-width: 1.1em;
+  text-align: center;
+}
+
+.rollParity {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #b5651d;
+}
+
+.rerollBtn {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.32rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid var(--ifm-color-emphasis-300);
+  background: var(--ifm-color-emphasis-100);
+  color: inherit;
+  cursor: pointer;
+}
+
+.rerollBtn:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+/* Selected-fighter injection: the picked AI fighter's notes for this step. */
+.fighterNote {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid rgba(47, 164, 107, 0.45);
+  border-left: 3px solid #2fa46b;
+  border-radius: 10px;
+  background: rgba(47, 164, 107, 0.1);
+}
+
+.fighterNoteLabel {
+  font-weight: 800;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #1f7a4d;
+}
+
+.fighterNoteItem {
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.fighterNoteMuted {
+  margin-top: 0.9rem;
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* Footer: pushed to the bottom of the card. Holds the demoted intro prose (on
+   action steps) and the rules citation, keeping the top clear for key info. */
+.foot {
+  margin-top: auto;
+  padding-top: 1.1rem;
+}
+
+.detailFoot {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.ref {
+  margin-top: 0.55rem;
+  font-size: 0.75rem;
+  font-family: var(--ifm-font-family-monospace);
+  color: var(--ifm-color-emphasis-500);
+}
+
+/* --- bottom navigation --- */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.navBtn {
+  flex: 0 0 auto;
+  min-width: 6.5rem;
+  min-height: 3rem;
+  padding: 0 1.1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--ifm-color-emphasis-800);
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease, opacity 0.12s ease;
+}
+
+.navBtn:hover:not(:disabled) {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.navBtn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.navBtn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.navNext {
+  color: #fff;
+  background: var(--ifm-color-primary);
+  border-color: var(--ifm-color-primary);
+}
+
+.navNext:hover:not(:disabled) {
+  background: var(--ifm-color-primary-dark);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--ifm-color-emphasis-300);
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.dotActive {
+  background: var(--accent);
+  transform: scale(1.35);
+}
+
+.endNote {
+  margin: 0;
+  text-align: center;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--ifm-color-emphasis-600);
+}
+
+/* On wider screens the card gets a bit more room and larger type. */
+@media screen and (min-width: 768px) {
+  .title {
+    font-size: 1.95rem;
+  }
+  .card {
+    padding: 1.8rem 1.7rem 1.4rem;
+  }
+}

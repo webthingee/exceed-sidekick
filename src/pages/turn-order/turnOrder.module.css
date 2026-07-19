@@ -1,0 +1,165 @@
+/* Styles for the Turn Order page: header + fighter picker (topSlot). */
+
+.pageHead {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0.6rem 1rem 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+
+.pageHeadTitle {
+  font-size: 1.25rem;
+  margin: 0;
+}
+
+.back {
+  margin-left: auto;
+  font-size: 0.82rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex: none;
+}
+
+/* --- fighter picker (rendered as the walkthrough's topSlot) --- */
+.picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  margin-bottom: 0.4rem;
+}
+
+.pickerRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1 1 45%;
+  min-width: 150px;
+}
+
+.fieldLabel {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.select {
+  appearance: none;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: inherit;
+  background: var(--ifm-color-emphasis-100);
+  border: 1px solid var(--ifm-color-emphasis-300);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--ifm-color-primary);
+}
+
+.seasonRulesBody {
+  padding: 0.8rem 0.95rem 0.9rem;
+}
+
+.seasonRulesList {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.seasonRulesList li {
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: var(--ifm-color-emphasis-800);
+}
+
+.keyCardNote {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: var(--ifm-color-emphasis-700);
+}
+
+/* --- collapsible full AI card --- */
+.cardToggleWrap {
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.cardToggle {
+  width: 100%;
+  text-align: left;
+  padding: 0.6rem 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: inherit;
+  background: var(--ifm-color-emphasis-100);
+  border: none;
+  cursor: pointer;
+}
+
+.cardToggle:hover {
+  background: var(--ifm-color-emphasis-200);
+}
+
+.fullCard {
+  padding: 0.9rem 1rem 1rem;
+}
+
+.sectionLabel {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ifm-color-emphasis-600);
+  margin: 1rem 0 0.5rem;
+}
+
+.sectionLabel:first-child {
+  margin-top: 0;
+}
+
+.para {
+  margin: 0 0 0.6rem;
+  line-height: 1.55;
+  font-size: 0.92rem;
+}
+
+.clar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.55rem 0.75rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-left: 3px solid var(--ifm-color-primary);
+  border-radius: 10px;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.clarCard {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.clarNote {
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+  line-height: 1.45;
+}

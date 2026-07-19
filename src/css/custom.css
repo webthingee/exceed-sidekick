@@ -1,0 +1,37 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* Per-game palette. Replace these with colors sampled from the game's art.
+   Accent = cobalt on light, ice-blue on dark (placeholder defaults). */
+:root {
+  --ifm-color-primary: #2b5b9e; /* Cobalt */
+  --ifm-color-primary-dark: #27528e;
+  --ifm-color-primary-darker: #254d86;
+  --ifm-color-primary-darkest: #1e406f;
+  --ifm-color-primary-light: #406ba8;
+  --ifm-color-primary-lighter: #4b74ad;
+  --ifm-color-primary-lightest: #6b8cbb;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+
+  /* Void navy footer in both themes (the black-hole center). */
+  --ifm-footer-background-color: #100e2b;
+  --ifm-footer-link-hover-color: #5f9ad0;
+}
+
+/* Lighter ice-blue accent in dark mode so it stays readable on navy. */
+[data-theme='dark'] {
+  --ifm-color-primary: #5f9ad0; /* Ice Blue */
+  --ifm-color-primary-dark: #558bbb;
+  --ifm-color-primary-darker: #5183b0;
+  --ifm-color-primary-darkest: #426c91;
+  --ifm-color-primary-light: #6fa4d4;
+  --ifm-color-primary-lighter: #77a9d7;
+  --ifm-color-primary-lightest: #8fb8de;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  --ifm-footer-background-color: #100e2b;
+}
